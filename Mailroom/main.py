@@ -3,7 +3,7 @@ import base64
 
 from flask import Flask, render_template, request, redirect, url_for, session
 
-from model import Donation 
+from model import Donation, Donor
 
 app = Flask(__name__)
 
@@ -18,14 +18,17 @@ def all():
     return render_template('donations.jinja2', donations=donations)
 
 
-@app.route('/new', methods=['GET', 'POST'])
+@app.route('/new/', methods=['GET', 'POST'])
 def new_donation():
-    if request.method == "POST":
-        return redirect((url_for('donations')))
-    elif request.method == "GET":
-        new_donation = Donation(name=request.form['name'], donation=request.form['donation'])
-        new_donation.save()
-    return render_template('new_donor.jinja2', donations=Donation.select())
+    if request.method == "GET":
+        return render_template('new_donor.jinja2')
+    elif request.method == "POST":
+        donor_name = request.form['name']
+        donation_amount = request.form['donation']
+        donor = Donor.select().where(Donor.name == donor_name).get()
+        donor = Donor(donor_name)
+        donor.save(donor)
+        return all()
 
 
 if __name__ == "__main__":
