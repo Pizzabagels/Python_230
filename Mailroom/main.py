@@ -26,12 +26,12 @@ def new_donation():
         donor_name = request.form['name']
         donation_amount = request.form['donation']
         donor = Donor.select().where(Donor.name == donor_name).get()
-        donor = Donor(donor_name)
-        donor.save(donor)
+        donation = Donation(value=donation_amount,donor=donor)
+        donation.save()
         return all()
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 6738))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
 
