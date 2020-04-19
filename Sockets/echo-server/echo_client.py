@@ -18,7 +18,8 @@ def client(msg, log_buffer=sys.stderr):
     # when we are finished with it
     try:
         print('sending "{0}"'.format(msg), file=log_buffer)
-        sock.sendall(b'Is this thing on?')
+        message = "Is this thing on?"
+        sock.sendall(message.encode())
 
         #       Log each chunk you receive.  Use the print statement below to
         #       do it. This will help in debugging problems
